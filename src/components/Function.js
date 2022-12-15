@@ -1,9 +1,18 @@
-
-export default function FunctionTodos({deleteTodo, handleCheck, editTodo, handleFormInput, todos, value, setInputValue}) {
-    localStorage.setItem("todos", JSON.stringify(todos))
+export default function FunctionTodos({
+	deleteTodo,
+	handleCheck,
+	editTodo,
+	handleFormInput,
+	todos,
+	value,
+	setInputValue,
+	FnAll,
+}) {
+	localStorage.setItem("todos", JSON.stringify(todos));
 	return (
 		<div className="w-50 me-5 mt-5">
-            <h2>Function Todo</h2>
+			<h2>Function Todo</h2>
+			<span>All Todos : {FnAll()}</span>
 			<form className="d-flex" onSubmit={handleFormInput}>
 				<input
 					className="form-control"
@@ -17,16 +26,23 @@ export default function FunctionTodos({deleteTodo, handleCheck, editTodo, handle
 			</form>
 			<ul className="list-unstyled form-check p-0">
 				{todos.map((todo, i) => (
-					<li key={i}  className="p-2 my-3 bg-white ps-2 rounded">
+					<li key={i} className="p-2 my-3 bg-white ps-2 rounded">
 						<div className="ms-5 d-flex justify-content-between align-items-center">
-							<label className={todo.isComplete ? "form-check-label  text-decoration-line-through" : ""} htmlFor="flexCheckDefault">
+							<label
+								className={
+									todo.isComplete
+										? "form-check-label  text-decoration-line-through"
+										: ""
+								}
+								htmlFor="flexCheckDefault"
+							>
 								<input
 									id="flexCheckDefault"
 									className="form-check-input"
 									name="isComplete"
 									defaultChecked={todo.isComplete}
 									type="checkbox"
-                                    onChange={() => handleCheck(todo.id)}
+									onChange={() => handleCheck(todo.id)}
 								/>
 								<p className="d-inline m-0">{todo.text}</p>
 							</label>
@@ -48,7 +64,6 @@ export default function FunctionTodos({deleteTodo, handleCheck, editTodo, handle
 					</li>
 				))}
 			</ul>
-           
 		</div>
 	);
 }

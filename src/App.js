@@ -6,23 +6,25 @@ import "react-toastify/dist/ReactToastify.css";
 function App() {
 	const [value, setValue] = useState("");
 
-	const [todos, setTodos] = useState(JSON.parse(localStorage.getItem("todos")) || [
-		{
-			id: 1,
-			text: "HTML",
-			isComplete: false,
-		},
-		{
-			id: 2,
-			text: "CSS/SCSS",
-			isComplete: false,
-		},
-		{
-			id: 3,
-			text: "Bootstrap",
-			isComplete: false,
-		},
-	]);
+	const [todos, setTodos] = useState(
+		JSON.parse(localStorage.getItem("todos")) || [
+			{
+				id: 1,
+				text: "HTML",
+				isComplete: false,
+			},
+			{
+				id: 2,
+				text: "CSS/SCSS",
+				isComplete: false,
+			},
+			{
+				id: 3,
+				text: "Bootstrap",
+				isComplete: false,
+			},
+		]
+	);
 
 	const handleFormInput = (evt) => {
 		evt.preventDefault();
@@ -39,10 +41,14 @@ function App() {
 	};
 
 	const handleCheck = (id) => {
-		const uncheckedTodo = todos.find(item => item.id === id);
+		const uncheckedTodo = todos.find((item) => item.id === id);
 		console.log(uncheckedTodo);
-        uncheckedTodo.isComplete = !uncheckedTodo.isComplete
-        setTodos([...todos])
+		uncheckedTodo.isComplete = !uncheckedTodo.isComplete;
+		setTodos([...todos]);
+	};
+
+	function FnAll() {
+		return todos.length;
 	}
 
 	const editTodo = (a, todoText) => {
@@ -73,8 +79,8 @@ function App() {
 				todos={todos}
 				value={value}
 				setInputValue={setInputValue}
+				FnAll={FnAll}
 			/>
-			
 		</div>
 	);
 }

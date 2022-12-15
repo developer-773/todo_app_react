@@ -4,16 +4,15 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default class ClassTodos extends React.Component {
 	state = {
-        inputt: "",
-		todos: JSON.parse(localStorage.getItem("Classtodos")) || [
-			{ id: 1, text: "Tailwind CSS", isChecked: false },
-			{ id: 2, text: "Materialize CSS", isChecked: false },
-			{ id: 3, text: "Javascript", isChecked: false },
-        ],
-
+		inputt: "",
+		todos:
+			JSON.parse(localStorage.getItem("Classtodos")) ||
+			[
+				// 	{ id: 1, text: "Tailwind CSS", isChecked: false },
+				// 	{ id: 2, text: "Materialize CSS", isChecked: false },
+				// 	{ id: 3, text: "Javascript", isChecked: false },
+			],
 	};
-
-    
 
 	handleFormSubmit = (evt) => {
 		evt.preventDefault();
@@ -24,26 +23,25 @@ export default class ClassTodos extends React.Component {
 		};
 
 		this.setState({ todos: [newTodo, ...this.state.todos] });
-		this.setState({ inputt: ""});
+		this.setState({ inputt: "" });
 		toast.success("Class Task was created successfully! 👌");
-        console.log(this.state.todos);
+		console.log(this.state.todos);
 	};
 
-    checkedItem (id) {
-        const unchecked = this.state.todos.find(item => item.id === id);
-        unchecked.isChecked = !unchecked.isChecked
-        this.setState([...this.state.todos])
-    }
+	checkedItem(id) {
+		const unchecked = this.state.todos.find((item) => item.id === id);
+		unchecked.isChecked = !unchecked.isChecked;
+		this.setState([...this.state.todos]);
+		localStorage.setItem("Classtodos", JSON.stringify([...this.state.todos]));
+	}
 
-
-	editItem (id, todoTextt) {
-        let editedValue = prompt("",todoTextt);
-        const findedText = this.state.todos.find(item => item.id === id);
-        findedText.text = editedValue;
-        this.setState([...this.state.todos])
+	editItem(id, todoTextt) {
+		let editedValue = prompt("", todoTextt);
+		const findedText = this.state.todos.find((item) => item.id === id);
+		findedText.text = editedValue;
+		this.setState([...this.state.todos]);
 		toast.warning("Class Task was edited successfully!");
-
-	};
+	}
 
 	deleteItem(id) {
 		this.setState(({ todos }) => {
@@ -52,23 +50,20 @@ export default class ClassTodos extends React.Component {
 			return {
 				todos: newArr,
 			};
-
 		});
 		toast.error("Class Task has been deleted!");
-
 	}
 
 	inputValue = (evt) => {
 		this.setState({ inputt: evt.target.value });
 	};
 
-
 	render() {
-    localStorage.setItem("Classtodos", JSON.stringify([...this.state.todos]))
-
+		localStorage.setItem("Classtodos", JSON.stringify([...this.state.todos]));
 		return (
 			<div className="mt-5 w-50">
 				<h2>Class Todo</h2>
+				<span>All Todos: {this.state.todos.length}</span>
 				<form className="d-flex" onSubmit={this.handleFormSubmit}>
 					<input
 						className="form-control"
@@ -80,23 +75,34 @@ export default class ClassTodos extends React.Component {
 						SUBMIT
 					</button>
 				</form>
+				{/* <button className="btn btn-success" onClick={ this.renderAllTodos}>Completed</button> */}
 				<ul className="list-unstyled form-check p-0">
 					{this.state.todos.map((item) => (
 						<li key={item.id} className="p-2 my-3 bg-white ps-2 rounded">
 							<div className="ms-5 d-flex justify-content-between align-items-center">
-								<label className={item.isChecked ? "form-check-label  text-decoration-line-through" : ""} htmlFor="flexCheckDefault">
+								<label
+									className={
+										item.isChecked
+											? "form-check-label  text-decoration-line-through"
+											: ""
+									}
+									htmlFor="flexCheckDefault"
+								>
 									<input
 										id="flexCheckDefault"
 										className="form-check-input"
 										name="isChecked"
 										type="checkbox"
-										checked={this.state.isChecked}
+										defaultChecked={item.isChecked}
 										onChange={() => this.checkedItem(item.id)}
 									/>
 									<p className="d-inline">{item.text}</p>
 								</label>
 								<div>
-									<button className="btn btn-info" onClick={() => this.editItem(item.id, item.text)}>
+									<button
+										className="btn btn-info"
+										onClick={() => this.editItem(item.id, item.text)}
+									>
 										EDIT
 									</button>
 									<button
@@ -110,7 +116,6 @@ export default class ClassTodos extends React.Component {
 						</li>
 					))}
 				</ul>
-               
 			</div>
 		);
 	}
